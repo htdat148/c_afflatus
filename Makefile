@@ -2,8 +2,8 @@
 CC       = gcc
 CFLAGS   = -g -Wall
 LDFLAGS  =
-OBJFILES = hash.o main.o
-TARGET   = hashtest
+OBJFILES = hash_new.o hash_new_test.o
+TARGET   = hash_new_test
 
 all: $(TARGET)
 
