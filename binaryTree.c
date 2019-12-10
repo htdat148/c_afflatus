@@ -90,6 +90,27 @@ int maxDepth(struct node* node){
     return countLeft;
 }
 
+int minValue(struct node *node){
+  /* only focus the left side */
+  if(node->left != NULL)
+    minValue(node->left);
+  else
+    return node->data;
+}
+
+void printTree(struct node* node){
+
+  /* print left side */
+  if(node->left != NULL)
+    printTree(node->left);
+
+  printf(" %d", node->data);
+  
+
+  /* print right side */
+  if(node->right != NULL)
+    printTree(node->right);
+}
 
 
 int main(){
@@ -101,7 +122,11 @@ int main(){
   insert(rootNode, 7);
   insert(rootNode, 5);
   insert(rootNode, 6);
+  insert(rootNode, -3);
+  insert(rootNode, -100);
   printf("Size: %d\n", size(rootNode));
   printf("Depth: %d\n", maxDepth(rootNode));
+  printf("min: %d\n", minValue(rootNode));
+  printTree(rootNode);
   
 }

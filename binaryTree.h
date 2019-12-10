@@ -25,3 +25,18 @@ int size(struct node *node);
 /* maxDepth -- the number of nodes along te logest patch */
 /* from the root node down to the farthest leaf node */
 int maxDepth(struct node *node);
+
+
+/* given an non-empty binary search tree */
+/* return the minumum data value found it tthat tree */
+int minValue(struct node *node);
+
+
+             /*   4     */
+             /*  / \    */
+             /*  2  5   */
+             /* / \     */
+          /*   1   3    */
+/* iterate over the nodes to print them out in increasing oreder */
+/* outpu: 1-2-3-4-5 */
+void printTree(struct node* node);
