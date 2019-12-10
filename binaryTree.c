@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define true 1
+#define false 0
 struct node {
   int data;
   struct node *left;
@@ -98,6 +100,15 @@ int minValue(struct node *node){
     return node->data;
 }
 
+
+int maxValue(struct node *node){
+  if(node->left == NULL)
+    return node->data;
+  else{
+    maxValue(node->right);
+  }
+}
+
 void printTree(struct node* node){
 
   /* print left side */
@@ -188,9 +199,112 @@ int sameTree(struct node *tree1, struct node *tree2){
 }
 
 
+void minorTree(struct node *node){
+ 
+  if(node ==NULL)
+    return;
+
+  else{
+    struct node* temp;
+
+    /* swap the pointer in this node */
+    temp = node->left;
+    node->left = node->right;
+    node->right = temp;
+
+    /* do the subtree */
+    minorTree(node->left);
+    minorTree(node->right);
+
+  }
+  
+}
+
+/* double tree */
+/* For each node in a binary tree, create a new duplicate node */
+/* and insert the duplicates as the left child of the origin node */
+void doubleTree(struct node *node){
+  
+  if(node == NULL)
+    return;
+  else {
+    struct node *tempNode;
+
+    tempNode = node->left;
+    node->left = (struct node*)malloc(sizeof(struct node));
+    node->left->data = node->data;
+    
+    node->left->left = tempNode;
+    node->left->right = NULL;
+    /* do the subtree */
+    doubleTree(node->left->left);
+    doubleTree(node->right);
+    
+  }
+}
+
+/* return 1 if same */
+/* Otherwise return 0 */
+/* both empty will be considered the same */
+int sameTree(struct node *tree1, struct node *tree2){
+  /* tree have different size */
+  if(sizeTree(tree1) != sizeTree(tree2))
+    return 0;
+
+  /* the size of both trees are equal */
+  else if(sizeTree(tree1) == sizeTree(tree2)){
+
+    /* both trees are empty */
+    if(tree1 == NULL && tree2 == NULL)
+      return 1;
+  
+    else if((tree1 != NULL && tree2 == NULL) ||
+	    (tree1 == NULL && tree2 != NULL))
+      return 0;
+
+    else if (tree1->data == tree2->data){
+      if(sameTree(tree1->left,tree2->left) &&
+	  sameTree(tree1->right, tree2->right))
+	return 1;
+      else
+	return 0;
+    }
+  }
+}
+
+/* Return tree if the given tree is a BTS and */
+/* its value are >= min and <= max */
+int isBSTRecur(struct node* node, int min, int max){
+  if(node == NULL)
+    return true;
+
+  if((node->data < min) || (node->data >max))
+    return false;
+
+  return isBSTRecur(node->left, min, max) && isBSTRecur(node->right, min, max);
+}
+
+
+/* Return tree if the given tree is a binary tree */
+int isBST(struct node *node){
+  int min = minValue(node);
+  int max = maxValue(node);
+  
+  return(isBSTRecur(node, min, max));
+}
+
+
+
+
 int main(){
   struct node *rootNode = NULL;
   struct node *headNode = NULL;
-
   
+  rootNode = build123();
+  headNode = build123();
+
+  if(isBST(rootNode))
+    printf("Binary search tree");
+  else
+    printf("NOT a binary search tree");
 }

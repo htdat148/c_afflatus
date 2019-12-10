@@ -38,7 +38,7 @@ int minValue(struct node *node);
              /* / \     */
           /*   1   3    */
 /* iterate over the nodes to print them out in increasing oreder */
-/* outpu: 1-2-3-4-5 */
+/* output: 1-2-3-4-5 */
 void printTree(struct node* node);
 
 /* change a tree that the roles of the left and right */
@@ -56,3 +56,12 @@ void doubleTree(struct node *node);
 /* Otherwise return 0 */
 /* both empty will be considered the same */
 int sameTree(struct node *tree1, struct node *tree2);
+
+/* Return tree if the given tree is a BTS and */
+/* its value are >= min and <= max */
+int isBSTRecur(struct node* node, int min, int max);
+
+/* Return tree if the given tree is a binary tree */
+int isBST(struct node *node);
+
+#endif
