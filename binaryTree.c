@@ -9,7 +9,7 @@ struct node {
 
 /* helper function thatt allocates a new node */
 /* with the given data and NULL left and right pointer */
-struct node* NewNode(int data){
+struct node* newNode(int data){
   struct node *nodeRef = (struct node *)malloc(sizeof(struct node));
   nodeRef->data = data;
   nodeRef->left = NULL;
@@ -24,7 +24,7 @@ struct node* NewNode(int data){
 /* the standart trich to avoid using reference */
 struct node* insert(struct node* node, int data){
   if (node == NULL){
-    return (NewNode(data));
+    return (newNode(data));
   }
   else{
     /* the left node */
@@ -40,28 +40,28 @@ struct node* insert(struct node* node, int data){
 
 struct node* build123(){
   /* calling newNode three timer, and using three pointer variable */
-  /* struct node *rootNode = NewNode(2); */
-  /* rootNode->left = NewNode(1); */
-  /* rootNode->right = NewNode(3); */
-  /* return (rootNode); */
+  struct node *rootNode = newNode(2);
+  rootNode->left = newNode(1);
+  rootNode->right = newNode(3);
+  return (rootNode);
 
   /* by calling insert() three times passing it the root pointer  */
   /* to build up the tree */
   
-  struct node* rootNode;
-  rootNode = insert(rootNode, 2);
-  rootNode = insert(rootNode, 1);
-  rootNode = insert(rootNode, 3);
-  return (rootNode);
+  /* struct node* rootNode; */
+  /* rootNode = insert(rootNode, 2); */
+  /* rootNode = insert(rootNode, 1); */
+  /* rootNode = insert(rootNode, 3); */
+  /* return (rootNode); */
   
   
 }
 
-int size(struct node *node){
+int sizeTree(struct node *node){
   int count = 0;
   if(node != NULL ){
     count++;
-    count = count + size(node->left) + size(node->right);
+    count = count + sizeTree(node->left) + sizeTree(node->right);
     return count;
   }
   else{
@@ -112,21 +112,85 @@ void printTree(struct node* node){
     printTree(node->right);
 }
 
+/* change a tree s that the roles of the left and right */
+/* pointer are swapped at every node */
+void minorTree(struct node *node){
+ 
+  if(node ==NULL)
+    return;
+
+  else{
+    struct node* temp;
+
+    /* swap the pointer in this node */
+    temp = node->left;
+    node->left = node->right;
+    node->right = temp;
+
+    /* do the subtree */
+    minorTree(node->left);
+    minorTree(node->right);
+
+  }
+  
+}
+
+/* double tree */
+/* For each node in a binary tree, create a new duplicate node */
+/* and insert the duplicates as the left child of the origin node */
+void doubleTree(struct node *node){
+  
+  if(node == NULL)
+    return;
+  else {
+    struct node *tempNode;
+
+    tempNode = node->left;
+    node->left = (struct node*)malloc(sizeof(struct node));
+    node->left->data = node->data;
+    
+    node->left->left = tempNode;
+    node->left->right = NULL;
+    /* do the subtree */
+    doubleTree(node->left->left);
+    doubleTree(node->right);
+    
+  }
+}
+
+/* return 1 if same */
+/* Otherwise return 0 */
+/* both empty will be considered the same */
+int sameTree(struct node *tree1, struct node *tree2){
+  /* tree have different size */
+  if(sizeTree(tree1) != sizeTree(tree2))
+    return 0;
+
+  /* the size of both trees are equal */
+  else if(sizeTree(tree1) == sizeTree(tree2)){
+
+    /* both trees are empty */
+    if(tree1 == NULL && tree2 == NULL)
+      return 1;
+  
+    else if((tree1 != NULL && tree2 == NULL) ||
+	    (tree1 == NULL && tree2 != NULL))
+      return 0;
+
+    else if (tree1->data == tree2->data){
+      if(sameTree(tree1->left,tree2->left) &&
+	  sameTree(tree1->right, tree2->right))
+	return 1;
+      else
+	return 0;
+    }
+  }
+}
+
 
 int main(){
   struct node *rootNode = NULL;
+  struct node *headNode = NULL;
 
-  rootNode = build123();
-  insert(rootNode, 7);
-  insert(rootNode, 4);
-  insert(rootNode, 7);
-  insert(rootNode, 5);
-  insert(rootNode, 6);
-  insert(rootNode, -3);
-  insert(rootNode, -100);
-  printf("Size: %d\n", size(rootNode));
-  printf("Depth: %d\n", maxDepth(rootNode));
-  printf("min: %d\n", minValue(rootNode));
-  printTree(rootNode);
   
 }

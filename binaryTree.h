@@ -40,3 +40,19 @@ int minValue(struct node *node);
 /* iterate over the nodes to print them out in increasing oreder */
 /* outpu: 1-2-3-4-5 */
 void printTree(struct node* node);
+
+/* change a tree that the roles of the left and right */
+/* pointer are swapped at every node */
+void minorTree(struct node *node);
+
+
+/* double tree */
+/* For each node in a binary tree, create a new duplicate node */
+/* and insert the duplicates as the left child of the origin node */
+void doubleTree(struct node *node);
+
+
+/* return 1 if same */
+/* Otherwise return 0 */
+/* both empty will be considered the same */
+int sameTree(struct node *tree1, struct node *tree2);
